@@ -9,7 +9,7 @@ from sqlalchemy import Boolean, Column, Float, String, Integer
 app = FastAPI()
 
 # SqlAlchemy Setup
-SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///./db.sqlite3:'
+SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///./db.sqlite3'
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True, future=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -27,19 +27,19 @@ class IncidentFormDatabase(Base):
 
     id = Column(Integer,primary_key=True,index=True)
     incident_id = Column(Integer)
-    site_id: Column(Integer)
-    ca_number: Column(String(50))
-    h_name: Column(String(50))
-    h_address: Column(String(50)) #location
-    category: Column(String(50))
-    constituency: Column(String(50))
-    ph_no: Column(Integer)
-    alt_ph_no : Column(Integer)
-    description : Column(String, nullable=True)
-    service : Column(String(50))
-    status : 
-    priority : 
-    date : 
+    site_id = Column(Integer)
+    ca_number =  Column(String(50))
+    h_name =  Column(String(50))
+    h_address=  Column(String(50)) #location
+    category=  Column(String(50))
+    constituency=  Column(String(50))
+    ph_no= Column(String(50))
+    alt_ph_no =  Column(String(50))
+    description =  Column(String, nullable=True)
+    service =  Column(String(50))
+    status =  Column(String(50))
+    priority =  Column(String(50))
+    date =  Column(String(50))
 
 Base.metadata.create_all(bind=engine)
 
@@ -53,10 +53,13 @@ class Incident(BaseModel):
     h_address: str
     category: str
     constituency: str
-    ph_no: int
-    alt_ph_no : int
+    ph_no: str
+    alt_ph_no : str
     description : Optional[str] = None
     service : str
+    status : str
+    priority : str
+    date : str
 
     class Config:
         orm_mode = True
@@ -91,5 +94,3 @@ def all_incidents(db : Session = Depends(get_db)):
 @app.get('/incident/{incident_id}')
 def get_incident(incident_id: int, db: Session = Depends(get_db)):
     return db_get_incident(db, incident_id)
-
-
