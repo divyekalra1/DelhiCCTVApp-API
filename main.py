@@ -38,7 +38,8 @@ def get_db():
 class IncidentFormDatabase(Base):
     __tablename__ = 'IncidentForm_DB' # This creates the metadata or the data required to explain the data entries within the database
 
-    incidentId = Column(Integer,primary_key=True,index=True) # The row number of an entry in the table will be its incidentID
+    id = Column(Integer,primary_key=True,index=True) # The row number of an entry in the table will be its incidentID
+    incidentID = Column(Integer)
     siteId = Column(Integer)
     caNumber =  Column(String(50))
     hName =  Column(String(50))
@@ -65,9 +66,11 @@ Base.metadata.create_all(bind=engine)
 
 '''
     A Pydantic  Class "Incident"
+    All the fields in the class will be displayed in the schema of the response model being used for the API endpoints
 '''
 class Incident(BaseModel):
     
+    incidentID : int
     siteId: int
     caNumber: Optional[str] = None
     hName: str
@@ -128,27 +131,27 @@ def create_places_view(incident: Incident, db: Session = Depends(get_db)):
     GET method to retrieve incident based on its Incident ID
     The get_incident displays the retrieved incident with all its fields from the database.
 '''
-def db_get_incident(db : Session, incident_id : int):
-    return db.query(IncidentFormDatabase).where(IncidentFormDatabase.incident_id == incident_id).first()
+def db_get_incident(db : Session, incidentID : int):
+    return db.query(IncidentFormDatabase).where(IncidentFormDatabase.incidentID == incidentID).first()
 
-@app.get('/incident/{incident_id}')
-def get_incident(incident_id: int, db: Session = Depends(get_db)):
-    return db_get_incident(db, incident_id)
+@app.get('/incident/{incidentID}')
+def get_incident(incidentID: int, db: Session = Depends(get_db)):
+    return db_get_incident(db, incidentID)
 
 
 
 '''
     PUT method to update an incident based on its Incident ID
-    The db_update_incident takes in the incident_id, database and an incident parsable dictionary created through the vars() function in the API part from the updated_incident given by the user input.
-    This is then queried through SQL in the function to update the value where the incident_id is equal to the user input
+    The db_update_incident takes in the incidentID, session instance and an incident parsable dictionary created through the vars() function in the API part from the updated_incident given by the user input.
+    This is then queried through SQL in the function to update the value where the incidentID is equal to the user input
 '''
-def db_update_incident(db : Session, incident_id: int, updated_incident : Incident, incident_dictionary):
-    return db.query(IncidentFormDatabase).filter(IncidentFormDatabase.incident_id==incident_id).update(incident_dictionary)
+def db_update_incident(db : Session, incidentID: int, updated_incident : Incident, incident_dictionary):
+    return db.query(IncidentFormDatabase).filter(IncidentFormDatabase.incidentID==incidentID).update(incident_dictionary)
 
-@app.put('/incident/{incident_id}', response_model = Incident)
-def update_incident(updated_incident: Incident, incident_id: int, db: Session = Depends(get_db)):
+@app.put('/incident/{incidentID}', response_model = IncidentFormDatabase)
+def update_incident(updated_incident: Incident, incidentID: int, db: Session = Depends(get_db)):
     incident_dictionary = vars(updated_incident)
-    db_update_incident(db, incident_id, updated_incident, incident_dictionary)
+    db_update_incident(db, incidentID, updated_incident, incident_dictionary)
     db.commit()
     return updated_incident
 
