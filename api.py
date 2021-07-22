@@ -148,7 +148,7 @@ def get_incident(incidentID: int, db: Session = Depends(get_db)):
 def db_update_incident(db : Session, incidentID: int, updated_incident : Incident, incident_dictionary):
     return db.query(IncidentFormDatabase).filter(IncidentFormDatabase.incidentID==incidentID).update(incident_dictionary)
 
-@app.put('/incident/{incidentID}', response_model = IncidentFormDatabase)
+@app.put('/incident/{incidentID}', response_model = Incident)
 def update_incident(updated_incident: Incident, incidentID: int, db: Session = Depends(get_db)):
     incident_dictionary = vars(updated_incident)
     db_update_incident(db, incidentID, updated_incident, incident_dictionary)
