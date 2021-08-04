@@ -157,6 +157,6 @@ def update_incident(updated_incident: Incident, incidentID: int, db: Session = D
 
 @app.get('/', include_in_schema=False)
 def rootText():
-    return {"Message" : "Welcome to the API for the DelhiCCTV App "}
+    return {"Message" : "Welcome to the API built for the DelhiCCTV Mobile App "}
 
 uvicorn.run(app) # by default runs the app on port 8000
