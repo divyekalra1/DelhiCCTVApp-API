@@ -16,4 +16,4 @@ source env/bin/activate
 
 The documentation for this API can be found in the current directory (As an HTML File) 
 
-## Designed and Developed for Erasmith Technologies Pvt. Ltd. 
+## Designed and Developed for Digiko, a unit of Erasmith Technologies Pvt. Ltd. 
