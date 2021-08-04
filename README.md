@@ -1,5 +1,5 @@
 # API for the DelhiCCTV App
-Building the DelhiCCTV App is a project to assist users, engineers and relevant people involved in the process of servicing and installation of the CCTV systems in New Delhi with easily registering and managing complaints
+The DelhiCCTV App was a project to assist users, engineers and relevant people involved in the process of servicing and installation of the CCTV systems in New Delhi with easily registering and managing complaints
  
 ## Create and activate a python3 virtual enviroment
 ```
